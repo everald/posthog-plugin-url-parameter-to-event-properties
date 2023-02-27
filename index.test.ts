@@ -140,6 +140,7 @@ describe("ParamsToPropertiesPlugin", () => {
                 expect(fields.has("setAsUserProperties")).toBeTruthy()
                 expect(fields.has("suffix")).toBeTruthy()
                 expect(fields.has("whiteList")).toBeTruthy()
+                expect(fields.size).toEqual(6)
             }
         })
 

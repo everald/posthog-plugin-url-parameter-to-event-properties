@@ -46,14 +46,6 @@
             "choices": ["true", "false"],
             "default": "false",
             "hint": "Additionally adds the property to the user initial properties"
-        },
-        {
-            "key": "replication",
-            "hint": "How many times should each event be sent",
-            "name": "Replication",
-            "type": "string",
-            "default": "1",
-            "required": false
         }
     ]
 }
