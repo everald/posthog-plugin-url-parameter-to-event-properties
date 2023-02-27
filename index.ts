@@ -1,4 +1,5 @@
 import { Plugin, PluginEvent, PluginMeta, } from '@posthog/plugin-scaffold'
+import { URLSearchParams } from 'url'
 
 export type PluginConfig = {
     ignoreCase: 'true' | 'false'
