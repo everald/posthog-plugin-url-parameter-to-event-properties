@@ -1,15 +1,15 @@
 {
-    "name": "URL parameter converter",
+    "name": "URL query parameter converter",
     "url": "https://github.com/everald/posthog-plugin-url-parameter-to-event-properties",
-    "description": "Converts URL parameters to event properties",
+    "description": "Converts URL query parameters to event properties",
     "main": "index.ts",
     "config": [
         {
             "key": "whiteList",
-            "name": "URL parameters to convert",
+            "name": "URL query parameters to convert",
             "type": "string",
             "default": "",
-            "hint": "Comma separated list of url parameters to ignore e.g. followerId, referral_partner"
+            "hint": "Comma separated list of URL query parameters to ignore e.g. followerId, referral_partner"
         },{
             "key": "prefix",
             "name": "Prefix",
