@@ -10,13 +10,15 @@
             "type": "string",
             "default": "",
             "hint": "Comma separated list of URL query parameters to ignore e.g. followerId, referral_partner"
-        },{
+        },
+        {
             "key": "prefix",
             "name": "Prefix",
             "type": "string",
             "default": "",
             "hint": "Add a prefix to the property name e.g. set it to 'prefix_' to get followerId -> prefix_followerId"
-        },{
+        },
+        {
             "key": "suffix",
             "name": "Suffix",
             "type": "string",

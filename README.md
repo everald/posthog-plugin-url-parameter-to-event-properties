@@ -6,7 +6,7 @@ A PostHog plugin to convert specific url search/query parameters to event proper
 
 By default, this converts no parameter at all. By white listing parameters the plugin will look for those and convert to properties
 
-Support [PostHog](https://posthog.com/) and give it a try today. 
+Support [PostHog](https://posthog.com/) and give it a try today.
 
 ## Developing Locally
 
@@ -17,6 +17,7 @@ git clone https://github.com/everald/posthog-plugin-url-parameter-to-event-prope
 yarn install
 yarn test --watch
 ```
+
 From there, edit away and enjoy!
 
 ## Installation

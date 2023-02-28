@@ -1,4 +1,4 @@
-import { Plugin, PluginEvent, PluginMeta, } from '@posthog/plugin-scaffold'
+import { Plugin, PluginEvent, PluginMeta } from '@posthog/plugin-scaffold'
 import { URLSearchParams } from 'url'
 
 export type PluginConfig = {
@@ -8,7 +8,6 @@ export type PluginConfig = {
     setAsUserProperties: 'true' | 'false'
     suffix: string
     whiteList: string
-
 }
 
 export type ParamsToPropertiesPlugin = Plugin<{
@@ -22,7 +21,7 @@ export type ParamsToPropertiesPlugin = Plugin<{
 }>
 
 function convertSearchParams(params: URLSearchParams): URLSearchParams {
-    return new URLSearchParams([...params].map(([key, value]) => ([key.toLowerCase(), value])) as [string, string][])
+    return new URLSearchParams([...params].map(([key, value]) => [key.toLowerCase(), value]) as [string, string][])
 }
 
 export const setupPlugin = (meta: PluginMeta<ParamsToPropertiesPlugin>): void => {
@@ -31,13 +30,17 @@ export const setupPlugin = (meta: PluginMeta<ParamsToPropertiesPlugin>): void =>
     global.ignoreCase = config.ignoreCase === 'true'
     global.setAsInitialUserProperties = config.setAsInitialUserProperties === 'true'
     global.setAsUserProperties = config.setAsUserProperties === 'true'
-    global.whiteList = new Set(config.whiteList ? config.whiteList.split(',').map((parameter) => parameter.trim()) : null)
+    global.whiteList = new Set(
+        config.whiteList ? config.whiteList.split(',').map((parameter) => parameter.trim()) : null
+    )
 }
 
 export const processEvent = (event: PluginEvent, meta: PluginMeta<ParamsToPropertiesPlugin>): PluginEvent => {
     if (event.properties?.$current_url) {
         const url = new URL(event.properties.$current_url)
-        const params = meta.global.ignoreCase ? convertSearchParams(new URLSearchParams(url.searchParams)) : new URLSearchParams(url.searchParams)
+        const params = meta.global.ignoreCase
+            ? convertSearchParams(new URLSearchParams(url.searchParams))
+            : new URLSearchParams(url.searchParams)
 
         for (const name of meta.global.whiteList) {
             const value = params.get(meta.global.ignoreCase ? name.toLowerCase() : name)
@@ -54,7 +57,6 @@ export const processEvent = (event: PluginEvent, meta: PluginMeta<ParamsToProper
                     event.properties.$set_once = event.properties.$set_once || {}
                     event.properties.$set_once[`initial_${key}`] = value
                 }
-
             }
         }
     }
