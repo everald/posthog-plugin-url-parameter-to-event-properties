@@ -195,6 +195,7 @@ describe("ParamsToPropertiesPlugin", () => {
                     expect(Object.keys(processedEvent.properties).length).toBeGreaterThan(sourcePropertiesCount)
                     expect(Object.keys(processedEvent.properties).length).toEqual(sourcePropertiesCount + 1)
                     expect(processedEvent.properties["myUrlParameter"]).toBeDefined()
+                    expect(processedEvent.properties.myUrlParameter).toEqual("1")
                 }
                 else {
                     expect(processedEvent.properties).toBeDefined()
@@ -244,6 +245,7 @@ describe("ParamsToPropertiesPlugin", () => {
                     expect(Object.keys(processedEvent.properties).length).toEqual(sourcePropertiesCount + 2)
                     expect(processedEvent.properties["myUrlParameter"]).toBeDefined()
                     expect(processedEvent.properties["$set"]).toBeDefined()
+                    expect(processedEvent.properties.$set['myUrlParameter']).toBeDefined()
                 }
                 else {
                     expect(processedEvent.properties).toBeDefined()
@@ -269,6 +271,7 @@ describe("ParamsToPropertiesPlugin", () => {
                     expect(Object.keys(processedEvent.properties).length).toEqual(sourcePropertiesCount + 2)
                     expect(processedEvent.properties["myUrlParameter"]).toBeDefined()
                     expect(processedEvent.properties["$set_once"]).toBeDefined()
+                    expect(processedEvent.properties.$set_once['initial_myUrlParameter']).toBeDefined()
                 }
                 else {
                     expect(processedEvent.properties).toBeDefined()
@@ -296,6 +299,8 @@ describe("ParamsToPropertiesPlugin", () => {
                     expect(processedEvent.properties["myUrlParameter"]).toBeDefined()
                     expect(processedEvent.properties["$set"]).toBeDefined()
                     expect(processedEvent.properties["$set_once"]).toBeDefined()
+                    expect(processedEvent.properties.$set['myUrlParameter']).toBeDefined()
+                    expect(processedEvent.properties.$set_once['initial_myUrlParameter']).toBeDefined()
                 }
                 else {
                     expect(processedEvent.properties).toBeDefined()
@@ -469,6 +474,41 @@ describe("ParamsToPropertiesPlugin", () => {
                     expect(Object.keys(processedEvent.properties).length).toBeGreaterThan(sourcePropertiesCount)
                     expect(Object.keys(processedEvent.properties).length).toEqual(sourcePropertiesCount + 1)
                     expect(processedEvent.properties["prefix_myUrlParameter_suffix"]).toBeDefined()
+                }
+                else {
+                    expect(processedEvent.properties).toBeDefined()
+                }
+            }
+            else {
+                expect(sourceEvent.properties).toBeDefined()
+            }
+        })
+
+        it("should add 1 property, 1 $set property and 1 $set_once property regardless of case with prefix and suffix", () => {
+            const sourceEvent = buildPageViewEvent("https://posthog.com/test?plugin=1&MyUrlParameter=1");
+
+            if (sourceEvent.properties) {
+                expect(sourceEvent.properties["myUrlParameter"]).not.toBeDefined()
+                expect(sourceEvent.properties["$set"]).not.toBeDefined()
+                expect(sourceEvent.properties["$set_once"]).not.toBeDefined()
+
+                const sourcePropertiesCount = Object.keys(sourceEvent?.properties).length
+                const processedEvent = processEvent(sourceEvent, buildMockMeta({
+                    ignoreCase: 'true',
+                    prefix: "prefix_", 
+                    suffix: "_suffix",
+                    setAsUserProperties: 'true',
+                    setAsInitialUserProperties: 'true'
+                }))
+
+                if (processedEvent.properties) {
+                    expect(Object.keys(processedEvent.properties).length).toBeGreaterThan(sourcePropertiesCount)
+                    expect(Object.keys(processedEvent.properties).length).toEqual(sourcePropertiesCount + 3)
+                    expect(processedEvent.properties["prefix_myUrlParameter_suffix"]).toBeDefined()
+                    expect(processedEvent.properties["$set"]).toBeDefined()
+                    expect(processedEvent.properties.$set['prefix_myUrlParameter_suffix']).toBeDefined()
+                    expect(processedEvent.properties["$set_once"]).toBeDefined()
+                    expect(processedEvent.properties.$set_once['initial_prefix_myUrlParameter_suffix']).toBeDefined()
                 }
                 else {
                     expect(processedEvent.properties).toBeDefined()

@@ -45,7 +45,7 @@
             "type": "choice",
             "choices": ["true", "false"],
             "default": "false",
-            "hint": "Additionally adds the property to the user initial properties"
+            "hint": "Additionally adds the property to the user initial properties. This will add a prefix of 'initial_' before the already fully composed property e.g. initial_prefix_followerId_suffix"
         }
     ]
 }
